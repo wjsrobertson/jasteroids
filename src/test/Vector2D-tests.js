@@ -71,4 +71,12 @@ describe("Vector2D", function () {
         expect(vector.x).toBeCloseTo(15);
         expect(vector.y).toBeCloseTo(25);
     });
+
+    it("calculates the correct distance between two vectors", function() {
+        var vector1 = new Jasteroids.Vector2D(0, 0);
+        var vector2 = new Jasteroids.Vector2D(1, 0);
+
+        expect(vector1.distance(vector2)).toBeCloseTo(1);
+        expect(vector2.distance(vector1)).toBeCloseTo(1);
+    });
 });

@@ -3,12 +3,12 @@ var Jasteroids = Jasteroids || {};
 Jasteroids.BoundingRectangle = function (x, y, height, width) {
     this.position = new Jasteroids.Vector2D();
     this.set(x, y, height, width);
-}
+};
 
 Jasteroids.BoundingRectangle.prototype = {
     set: function (x, y, height, width) {
         this.position.x = x;
-        this.position.y = y
+        this.position.y = y;
         this.height = height;
         this.width = width;
     },
@@ -26,4 +26,4 @@ Jasteroids.BoundingRectangle.prototype = {
             || this.position.y >= rectangle.position.y + this.height
             || rectangle.position.y >= this.position.y + this.height );
     }
-}
+};

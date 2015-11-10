@@ -90,3 +90,10 @@ Jasteroids.Vector2D.prototype.interpolate = function (ratio, vector) {
     this.x = this.x + (ratio * (vector.x - this.x));
     this.y = this.y + (ratio * (vector.y - this.y));
 };
+
+// TODO - do this inline without the clone
+Jasteroids.Vector2D.prototype.distance = function (vector) {
+    var copy = vector.clone();
+    copy.subtract(this);
+    return copy.magnitude();
+};
