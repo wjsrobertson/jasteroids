@@ -97,3 +97,14 @@ Jasteroids.Vector2D.prototype.distance = function (vector) {
     copy.subtract(this);
     return copy.magnitude();
 };
+
+
+// TODO - use this throughout instead of .x
+Jasteroids.Vector2D.prototype.getX = function () {
+    return this.x;
+};
+
+// TODO - use this throughout instead of .y
+Jasteroids.Vector2D.prototype.getY = function () {
+    return this.y;
+};

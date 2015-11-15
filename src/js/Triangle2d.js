@@ -4,7 +4,7 @@ Jasteroids.Triangle2D = function (a, b, c) {
     this.a = a;
     this.b = b;
     this.c = c;
-    this.recalculationRequired = true;
+    this._boundsChanged = true;
     this.boundingRectangle = new Jasteroids.BoundingRectangle();
 };
 
@@ -30,14 +30,14 @@ Jasteroids.Triangle2D.prototype = {
     },
 
     _recalculateIfRequired: function () {
-        if (this.recalculationRequired) {
+        if (this._boundsChanged) {
             this._recalculate();
         }
     },
 
     _recalculate: function () {
         this._recalculateBoundingRectangle();
-        this.recalculationRequired = false;
+        this._boundsChanged = false;
     },
 
     _recalculateBoundingRectangle: function () {

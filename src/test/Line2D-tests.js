@@ -73,8 +73,8 @@ describe("Line2D", function () {
         ];
 
         $j.each(expectedToIntersect, function (index, otherLine) {
-            expect(line.intersectsWithLine(otherLine)).toBe(true);
-            expect(otherLine.intersectsWithLine(line)).toBe(true);
+            expect(line.intersectsLine(otherLine)).toBe(true);
+            expect(otherLine.intersectsLine(line)).toBe(true);
         });
     });
 
@@ -87,8 +87,8 @@ describe("Line2D", function () {
         ];
 
         $j.each(expectedToIntersect, function (index, otherLine) {
-            expect(line.intersectsWithLine(otherLine)).toBe(true);
-            expect(otherLine.intersectsWithLine(line)).toBe(true);
+            expect(line.intersectsLine(otherLine)).toBe(true);
+            expect(otherLine.intersectsLine(line)).toBe(true);
         });
     });
 
@@ -96,14 +96,14 @@ describe("Line2D", function () {
         var line = new Jasteroids.Line2D(new Jasteroids.Vector2D(0, 10), new Jasteroids.Vector2D(0, 20));
         var otherLine = new Jasteroids.Line2D(new Jasteroids.Vector2D(0, 10), new Jasteroids.Vector2D(0, 20));
 
-        expect(line.intersectsWithLine(otherLine)).toBe(true);
+        expect(line.intersectsLine(otherLine)).toBe(true);
     });
 
     it("intersects when horizointal and other line is same", function () {
         var line = new Jasteroids.Line2D(new Jasteroids.Vector2D(10, 0), new Jasteroids.Vector2D(20, 0));
         var otherLine = new Jasteroids.Line2D(new Jasteroids.Vector2D(10, 0), new Jasteroids.Vector2D(20, 0));
 
-        expect(line.intersectsWithLine(otherLine)).toBe(true);
+        expect(line.intersectsLine(otherLine)).toBe(true);
     });
 
 
@@ -117,8 +117,8 @@ describe("Line2D", function () {
         ];
 
         $j.each(expectedToNotIntersect, function (index, otherLine) {
-            expect(line.intersectsWithLine(otherLine)).toBe(false);
-            expect(otherLine.intersectsWithLine(line)).toBe(false);
+            expect(line.intersectsLine(otherLine)).toBe(false);
+            expect(otherLine.intersectsLine(line)).toBe(false);
         });
     });
 
@@ -132,8 +132,8 @@ describe("Line2D", function () {
         ];
 
         $j.each(expectedToNotIntersect, function (index, otherLine) {
-            expect(line.intersectsWithLine(otherLine)).toBe(false);
-            expect(otherLine.intersectsWithLine(line)).toBe(false);
+            expect(line.intersectsLine(otherLine)).toBe(false);
+            expect(otherLine.intersectsLine(line)).toBe(false);
         });
     });
 
@@ -148,5 +148,14 @@ describe("Line2D", function () {
 
         expect(line.end.x).toBeCloseTo(0);
         expect(line.end.y).toBeCloseTo(-10);
+    });
+
+    it("does not have a bug when calculating bounding rectangle", function () {
+        var line = new Jasteroids.Line2D(new Jasteroids.Vector2D(5, 5), new Jasteroids.Vector2D(5, -11));
+        var bounds = line.getBoundingRectangle();
+
+        expect(bounds.getHeight()).toBe(16);
+        expect(bounds.getPosition().getX()).toBe(5);
+        expect(bounds.getPosition().getY()).toBe(-11);
     });
 });

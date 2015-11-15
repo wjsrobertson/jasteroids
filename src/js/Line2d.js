@@ -6,12 +6,12 @@ Jasteroids.Line2D = function (start, end) {
     this.boundingRectangle = new Jasteroids.BoundingRectangle();
     this.gradient = 0;
     this.yOffset = 0;
-    this.recalculationRequired = true;
+    this._boundsChanged = true;
     this.midPoint = new Jasteroids.Vector2D();
 };
 
 Jasteroids.Line2D.prototype._recalculateIfRequired = function () {
-    if (this.recalculationRequired) {
+    if (this._boundsChanged) {
         this._recalculate();
     }
 }
@@ -21,7 +21,7 @@ Jasteroids.Line2D.prototype._recalculate = function () {
     this._recalculateGradient();
     this._recalculateMidPoint();
 
-    this.recalculationRequired = false;
+    this._boundsChanged = false;
 };
 
 Jasteroids.Line2D.prototype._recalculateBoundingRectangle = function () {
@@ -91,7 +91,7 @@ Jasteroids.Line2D.prototype.containsVector = function (v) {
     return false;
 }
 
-Jasteroids.Line2D.prototype.intersectsWithLine = function (line) {
+Jasteroids.Line2D.prototype.intersectsLine = function (line) {
     this._recalculateIfRequired();
 
     var xTestMin = Math.min(this.start.x, this.end.x);
@@ -121,7 +121,7 @@ Jasteroids.Line2D.prototype.intersectsWithLine = function (line) {
     }
 
     // special case 2) both lines are horizontal
-    if (this.gradient === 0 && testGradient === 0) {
+    if (Jasteroids.eq(this.gradient, 0) && Jasteroids.eq(testGradient, 0)) {
         if (Jasteroids.eq(this.start.y, line.start.y)) {
             if (Jasteroids.eq(xMin, xTestMin)) {
                 return true;
@@ -200,5 +200,15 @@ Jasteroids.Line2D.prototype.rotate = function (x, y, angle) {
     // set the point to be where we calculated it should be
     this.end.setXY(newX,newY);
 
-    this.recalculationRequired = true;
+    this._boundsChanged = true;
 };
+
+// TODO use these throughout instead of .start
+Jasteroids.Line2D.prototype.getStart = function () {
+    return this.start;
+}
+
+// TODO use these throughout instead of .end
+Jasteroids.Line2D.prototype.getEnd = function () {
+    return this.end;
+}

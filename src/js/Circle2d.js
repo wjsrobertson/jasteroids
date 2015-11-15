@@ -3,7 +3,7 @@ var Jasteroids = Jasteroids || {};
 Jasteroids.Circle2D = function (center, radius) {
     this.centre = centre;
     this.radius = radius;
-    this.recalculationRequired = true;
+    this._boundsChanged = true;
     this.boundingRectangle = new Jasteroids.BoundingRectangle();
 };
 
