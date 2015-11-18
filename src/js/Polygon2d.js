@@ -1,6 +1,10 @@
 var Jasteroids = Jasteroids || {};
 
 Jasteroids.Polygon2D = function (vertices) {
+    if (! Jasteroids.hasValue(vertices)) {
+        throw new Error("Polygod2D requires vertices");
+    }
+
     this.vertices = vertices;
     this.triangles = [];
     this.edges = [];
