@@ -155,12 +155,10 @@ Jasteroids.Line2D.prototype.intersectsLine = function (line) {
         && (x >= xMin && x <= xMax);
 };
 
-Jasteroids.Line2D.prototype._rotateVector = function (vector, x, y, angle) {
-
-}
-
-Jasteroids.Line2D.prototype.rotate = function (x, y, angle) {
+Jasteroids.Line2D.prototype.rotate = function (point, angle) {
     var theta = -angle;
+    var x = point.x;
+    var y = point.y;
 
     /*
      start point first
@@ -206,9 +204,13 @@ Jasteroids.Line2D.prototype.rotate = function (x, y, angle) {
 // TODO use these throughout instead of .start
 Jasteroids.Line2D.prototype.getStart = function () {
     return this.start;
-}
+};
 
 // TODO use these throughout instead of .end
 Jasteroids.Line2D.prototype.getEnd = function () {
     return this.end;
-}
+};
+
+Jasteroids.Line2D.prototype.toString = function () {
+    return "" + this.getStart() + " -> " + this.getEnd();
+};

@@ -141,7 +141,7 @@ describe("Line2D", function () {
         var line = new Jasteroids.Line2D(new Jasteroids.Vector2D(-10, 0), new Jasteroids.Vector2D(10, 0));
 
         var ninetyDegrees = Math.PI / 2;
-        line.rotate(0, 0, ninetyDegrees);
+        line.rotate(new Jasteroids.Vector2D(0, 0), ninetyDegrees);
 
         expect(line.start.x).toBeCloseTo(0);
         expect(line.start.y).toBeCloseTo(10);

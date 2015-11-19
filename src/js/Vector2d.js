@@ -28,8 +28,8 @@ Jasteroids.Vector2D.prototype.add = function (other) {
         return;
     }
 
-    this.x += other.x;
-    this.y += other.y;
+    this.x += other.getX();
+    this.y += other.getY();
 };
 
 Jasteroids.Vector2D.prototype.subtract = function (other) {
@@ -107,4 +107,8 @@ Jasteroids.Vector2D.prototype.getX = function () {
 // TODO - use this throughout instead of .y
 Jasteroids.Vector2D.prototype.getY = function () {
     return this.y;
+};
+
+Jasteroids.Vector2D.prototype.toString = function () {
+    return "(" + this.getX() + "," + this.getY() + ")";
 };
