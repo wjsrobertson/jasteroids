@@ -177,7 +177,7 @@ Jasteroids.Line2D.prototype.rotate = function (point, angle) {
     newY += y;
 
     // set the point to be where we calculated it should be
-    this.start.setXY(newX,newY);
+    this.start.setXY(newX, newY);
 
     /*
      now do the end point
@@ -196,7 +196,7 @@ Jasteroids.Line2D.prototype.rotate = function (point, angle) {
     newY += y;
 
     // set the point to be where we calculated it should be
-    this.end.setXY(newX,newY);
+    this.end.setXY(newX, newY);
 
     this._boundsChanged = true;
 };
@@ -213,4 +213,13 @@ Jasteroids.Line2D.prototype.getEnd = function () {
 
 Jasteroids.Line2D.prototype.toString = function () {
     return "" + this.getStart() + " -> " + this.getEnd();
+};
+
+Jasteroids.Line2D.prototype.isEqualTo = function (otherLine) {
+    if (!Jasteroids.hasValue(otherLine)) {
+        return false;
+    }
+
+    return this.getStart().isEqualTo(otherLine.getStart()) &&
+        this.getEnd().isEqualTo(otherLine.getEnd());
 };

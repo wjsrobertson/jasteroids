@@ -79,4 +79,12 @@ describe("Vector2D", function () {
         expect(vector1.distance(vector2)).toBeCloseTo(1);
         expect(vector2.distance(vector1)).toBeCloseTo(1);
     });
+
+    it("is equal to another vector with the same x and y", function() {
+        var vector1 = new Jasteroids.Vector2D(10, 10);
+        var vector2 = new Jasteroids.Vector2D(10, 10);
+
+        expect(vector1.isEqualTo(vector2)).toBeTruthy();
+        expect(vector2.isEqualTo(vector1)).toBeTruthy();
+    });
 });

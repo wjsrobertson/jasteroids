@@ -112,3 +112,12 @@ Jasteroids.Vector2D.prototype.getY = function () {
 Jasteroids.Vector2D.prototype.toString = function () {
     return "(" + this.getX() + "," + this.getY() + ")";
 };
+
+Jasteroids.Vector2D.prototype.isEqualTo = function(vector) {
+    if (! Jasteroids.hasValue(vector)) {
+        return false;
+    }
+
+    return Jasteroids.eq(this.getX(), vector.getX())
+        && Jasteroids.eq(this.getY(), vector.getY())
+};
