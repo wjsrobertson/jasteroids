@@ -5,7 +5,11 @@ Jasteroids.Polygon2D = function (vertices) {
         throw new Error("Polygod2D requires vertices");
     }
 
-    this.vertices = vertices;
+    // defensive copy of vertices
+    this.vertices = vertices.map(function(vertex) {
+        return vertex.clone();
+    });
+
     this.triangles = [];
     this.edges = [];
     this.boundingRectangle = null;
@@ -144,7 +148,7 @@ Jasteroids.Polygon2D.prototype = {
             }
         );
 
-        return intersects || contains(line.getStart()) || contains(line.getEnd());
+        return intersects || this.containsVector(line.getStart()) || this.containsVector(line.getEnd());
     },
 
     intersectsPolygon: function (polygon) {
