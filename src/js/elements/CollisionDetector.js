@@ -2,6 +2,10 @@ var Jasteroids = Jasteroids || {};
 
 Jasteroids.CollisionDetector = {
     areItemsColliding: function (item1, item2) {
+        if (! item1 || ! item2) {
+            return false;
+        }
+
         var polygon1 = new Jasteroids.Polygon2D(item1.getPolygon().getVertices());
         polygon1.translate(item1.getPosition());
 
@@ -12,6 +16,10 @@ Jasteroids.CollisionDetector = {
     },
 
     isItemCollidingWithMissile: function (item, missile) {
+        if (! item || ! missile) {
+            return false;
+        }
+
         var polygon = new Jasteroids.Polygon2D(item.getPolygon().getVertices());
         polygon.translate(item.getPosition());
 
