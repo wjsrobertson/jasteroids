@@ -4,7 +4,7 @@ describe("AsteroidFactory", function () {
     var someVelocity;
     var someSize;
 
-    beforeEach(function(){
+    beforeEach(function () {
         somePosition = new Jasteroids.Vector2D(1, 2);
         someVelocity = new Jasteroids.Vector2D(3, 4);
         someSize = Jasteroids.AsteroidFactory.SMALL_SIZE;
@@ -55,4 +55,49 @@ describe("AsteroidFactory", function () {
         expect(smallArea).toBeLessThan(largeArea);
         expect(mediumArea).toBeLessThan(largeArea);
     });
+
+    it("creates two child asteroids for a large asteroid", function () {
+        // when
+        var large = Jasteroids.AsteroidFactory.create(somePosition, someVelocity, Jasteroids.AsteroidFactory.LARGE_SIZE);
+
+        // when
+        var childAsteroids = Jasteroids.AsteroidFactory.createChildAsteroids(large);
+
+        // then
+        expect(childAsteroids.length).toBe(2);
+    });
+
+    it("creates two child asteroids for a medium asteroid", function () {
+        // when
+        var medium = Jasteroids.AsteroidFactory.create(somePosition, someVelocity, Jasteroids.AsteroidFactory.MEDIUM_SIZE);
+
+        // when
+        var childAsteroids = Jasteroids.AsteroidFactory.createChildAsteroids(medium);
+
+        // then
+        expect(childAsteroids.length).toBe(2);
+    });
+
+    it("creates no child asteroids for a small asteroid", function () {
+        // when
+        var small = Jasteroids.AsteroidFactory.create(somePosition, someVelocity, Jasteroids.AsteroidFactory.SMALL_SIZE);
+
+        // when
+        var childAsteroids = Jasteroids.AsteroidFactory.createChildAsteroids(small);
+
+        // then
+        expect(childAsteroids.length).toBe(0);
+    });
+
+    it("creates two child asteroids at the same position as the parent asteroid", function () {
+        // when
+        var large = Jasteroids.AsteroidFactory.create(somePosition, someVelocity, Jasteroids.AsteroidFactory.LARGE_SIZE);
+
+        // when
+        var childAsteroids = Jasteroids.AsteroidFactory.createChildAsteroids(large);
+
+        // then
+        expect(childAsteroids[0].getPosition().isEqualTo(childAsteroids[1].getPosition())).toBeTruthy();
+    });
+
 });

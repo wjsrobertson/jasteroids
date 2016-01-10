@@ -1,9 +1,10 @@
 var Jasteroids = Jasteroids || {};
 
-Jasteroids.GameController = function (model, bounds, listeners) {
+Jasteroids.GameController = function (model, bounds, listeners, controllers) {
     this.model = model;
     this.bounds = bounds;
     this.listeners = listeners || [];
+    this.controllers = controllers || [];
 };
 
 Jasteroids.GameController.prototype.newGame = function () {
@@ -14,6 +15,15 @@ Jasteroids.GameController.prototype.newGame = function () {
     this._initAsteroids(1);
 
     this._notifyListeners(Jasteroids.EventTypes.GAME_START);
+};
+
+Jasteroids.GameController.prototype.tick = function () {
+    this.controllers.forEach(function (controller) {
+        controller.tick();
+    });
+
+    this._nextLevelCheck();
+    this._gameOverCheck();
 };
 
 Jasteroids.GameController.prototype._initStars = function () {
@@ -67,10 +77,52 @@ Jasteroids.GameController.prototype._notifyListeners = function (eventType) {
     });
 };
 
-Jasteroids.GameController.prototype.tick = function () {
-    this._updateFloatingObjects();
-    this.collisionCheck();
-    this.nextLevelCheck();
-    this.saucerBehaviour();
-    this.gameOverCheck();
+Jasteroids.GameController.prototype._nextLevelCheck = function () {
+    if (this.model.asteroids.length == 0 && this.model.livesRemaining > 0) {
+        this.model.level = this.model.level + 1;
+        this._initAsteroids(this.model.level);
+        this._initSpaceShip();
+
+        this._notifyListeners(Jasteroids.EventTypes.NEW_LEVEL);
+
+        this.model.explosions.forEach(function (explosion, index) {
+            if (explosion.getAge() > Jasteroids.Settings.EXPLOSION_MAX_AGE) {
+                this.model.explosions[i].splice(index, 1);
+            }
+        }, this);
+
+        if (this.model.missile) {
+            if (this.model.missile.getAge() > Jasteroids.Settings.MISSLE_MAX_AGE_SHIP) {
+                this.model.missile = null;
+            }
+        }
+
+        if (this.model.saucerMissile) {
+            if (this.model.saucerMissile.getAge() > Jasteroids.Settings.MISSLE_MAX_AGE_SAUCER) {
+                this.model.saucerMissile = null;
+            }
+        }
+
+        if (this.model.spaceShip) {
+            if ( spaceShip.getAge() == Jasteroids.Settings.SPACE_SHIP_MORTAL_AGE ) {
+                this._notifyListeners(Jasteroids.EventTypes.SHIP_MORTAL);
+            }
+        } else {
+            this.model.createShipTimer = this.model.createShipTimer + 1;
+            if (this.model.createShipTimer > Jasteroids.Settings.CREATE_SHIP_WAIT && this.model.livesRemaining > 0) {
+                this._initSpaceShip();
+            }
+        }
+    }
+};
+
+Jasteroids.GameController.prototype._gameOverCheck = function () {
+    if (this.model.livesRemaining == 0) {
+        this.model.deadTimer = this.model.deadTimer + 1;
+
+        if (this.model.deadTimer > Jasteroids.Settings.DEAD_GAMEOVER_WAIT) {
+            this.model.deadTimer = -1;
+            this._notifyListeners(Jasteroids.EventTypes.GAME_END);
+        }
+    }
 };

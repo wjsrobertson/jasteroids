@@ -11,7 +11,7 @@ Jasteroids.AsteroidFactory = {
     SHAPE3: 3,
 
     create: function (position, velocity, size, shape) {
-        if (! Jasteroids.hasValue(shape)) {
+        if (!Jasteroids.hasValue(shape)) {
             shape = Jasteroids.AsteroidFactory._getRandomShape();
         }
 
@@ -27,6 +27,25 @@ Jasteroids.AsteroidFactory = {
         asteroid.setVelocity(velocity);
 
         return asteroid;
+    },
+
+    createChildAsteroids: function (parentAsteroid) {
+        var childAsteroids = [];
+
+        if (parentAsteroid.getSize() != Jasteroids.AsteroidFactory.SMALL_SIZE) {
+            var randomVelocity = this._getRandomVelocityCloseToAsteroidVelocity(parentAsteroid);
+            var oppositeRandomVelocity = new Jasteroids.Vector2D(
+                -randomVelocity.getX(), -randomVelocity.getY()
+            );
+
+            var childAsteroid1 = this.create(parentAsteroid.getPosition(), randomVelocity, parentAsteroid.getSize() - 1);
+            childAsteroids.push(childAsteroid1);
+
+            var childAsteroid2 = this.create(parentAsteroid.getPosition(), oppositeRandomVelocity, parentAsteroid.getSize() - 1);
+            childAsteroids.push(childAsteroid2);
+        }
+
+        return childAsteroids;
     },
 
     _getWidthForSize: function (size) {
@@ -75,6 +94,14 @@ Jasteroids.AsteroidFactory = {
         }
 
         return vertices;
+    },
+
+    _getRandomVelocityCloseToAsteroidVelocity: function (asteroid) {
+        var randomVelocity = asteroid.getVelocity().clone();
+        randomVelocity.scaleBy(3 + Math.random() * 5);
+        randomVelocity.add(new Jasteroids.Vector2D(1 - Math.random() * 2, 1 - Math.random() * 3));
+        randomVelocity.add(new Jasteroids.Vector2D(5, 5));
+        return randomVelocity;
     }
 };
 

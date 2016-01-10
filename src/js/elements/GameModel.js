@@ -15,3 +15,7 @@ Jasteroids.GameModel = function () {
     this.thrusterOn = false;
     this.createShipTimer = 0;
 };
+
+Jasteroids.GameModel.prototype.addToScore = function (numPoints) {
+    this.score = this.score + numPoints;
+};

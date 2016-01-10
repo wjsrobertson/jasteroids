@@ -6,13 +6,10 @@ Jasteroids.PositionController = function (model, bounds, notifyListeners) {
     this._notifyListeners = notifyListeners;
 };
 
-Jasteroids.PositionController.prototype.updateFloatingObjects = function () {
+Jasteroids.PositionController.prototype.tick = function () {
     if (this.model.missile) {
         this.model.missile.update();
         this._correctPosition(missile);
-        if (this.model.missile.getAge() > Jasteroids.Settings.MISSLE_MAX_AGE_SHIP) {
-            this.model.missile = null;
-        }
     }
 
     if (this.model.saucerMissile) {
@@ -30,9 +27,6 @@ Jasteroids.PositionController.prototype.updateFloatingObjects = function () {
 
     this.model.explosions.forEach(function (explosion, index) {
         explosion.update();
-        if (explosion.getAge() > Jasteroids.Settings.EXPLOSION_MAX_AGE) {
-            this.model.explosions[i].splice(index, 1);
-        }
         this._correctPosition(explosion);
     }, this);
 
@@ -49,14 +43,6 @@ Jasteroids.PositionController.prototype.updateFloatingObjects = function () {
     if (this.model.spaceShip) {
         this.model.spaceShip.update();
         this._correctPosition(this.model.spaceShip);
-        if ( spaceShip.getAge() == Jasteroids.Settings.SPACE_SHIP_MORTAL_AGE ) {
-            this._notifyListeners(Jasteroids.EventTypes.SHIP_MORTAL);
-        }
-    } else {
-        this.model.createShipTimer = this.model.createShipTimer + 1;
-        if (this.model.createShipTimer > Jasteroids.Settings.CREATE_SHIP_WAIT && this.model.livesRemaining > 0) {
-            this._initSpaceShip();
-        }
     }
 };
 
