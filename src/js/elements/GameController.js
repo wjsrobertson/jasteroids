@@ -8,11 +8,9 @@ Jasteroids.GameController = function (model, bounds, listeners, controllers) {
 };
 
 Jasteroids.GameController.prototype.newGame = function () {
-    this.model = new Jasteroids.GameModel();
-
     this._initStars();
     this._initSpaceShip();
-    this._initAsteroids(1);
+    this._initAsteroids(3);
 
     this._notifyListeners(Jasteroids.EventTypes.GAME_START);
 };
@@ -31,8 +29,8 @@ Jasteroids.GameController.prototype._initStars = function () {
 
     for (var i = 0; i < Jasteroids.Settings.NUM_STARS; i++) {
         var width = 3 * Math.random();
-        var x = this.bounds.gameWidth * Math.random();
-        var y = this.bounds.gameHeight * Math.random();
+        var x = this.bounds.width * Math.random();
+        var y = this.bounds.height * Math.random();
         var position = new Jasteroids.Vector2D(x, y);
         var star = new Jasteroids.Star(position, width);
 
@@ -46,7 +44,7 @@ Jasteroids.GameController.prototype._initSpaceShip = function () {
     var ship = this.model.spaceShip;
 
     ship.reset();
-    ship.setPosition(this.bounds.gameMaxX / 2, this.bounds.gameMaxY / 2);
+    ship.setPosition(new Jasteroids.Vector2D(this.bounds.width / 2, this.bounds.getHeight() / 2));
 };
 
 Jasteroids.GameController.prototype._initAsteroids = function (numAsteroids) {
@@ -59,11 +57,14 @@ Jasteroids.GameController.prototype._initAsteroids = function (numAsteroids) {
         if (Math.random() >= 0.5) {
             yVelocity = -yVelocity;
         }
-        var xPosition = Math.random() * (this.bounds.gameMaxX - this.bounds.gameMinX);
-        var yPosition = Math.random() * (this.bounds.gameMaxY - this.bounds.gameMinY);
 
-        var asteroid = Jasteroids.AsteroidFactory.create();
-        asteroid.set(new Vector2D(xPosition, yPosition), new Vector2D(xVelocity, yVelocity), 3);
+        var xPosition = Math.random() * this.bounds.getWidth();
+        var yPosition = Math.random() * this.bounds.getHeight();
+        var position = new Jasteroids.Vector2D(xPosition, yPosition);
+        var velocity = new Jasteroids.Vector2D(xVelocity, yVelocity);
+
+        var asteroid = Jasteroids.AsteroidFactory.create(position, velocity, Jasteroids.AsteroidFactory.LARGE_SIZE);
+        this.model.asteroids.push(asteroid);
     }
 };
 

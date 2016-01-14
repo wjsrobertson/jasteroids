@@ -6,9 +6,9 @@ Jasteroids.Star = function (position, radius) {
 };
 
 Jasteroids.Star.prototype.getRadius = function() {
-    return radius;
+    return this.radius;
 };
 
 Jasteroids.Star.prototype.getPosition = function() {
-    return position;
+    return this.position;
 };

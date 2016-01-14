@@ -50,12 +50,12 @@ Jasteroids.AsteroidFactory = {
 
     _getWidthForSize: function (size) {
         if (size === Jasteroids.AsteroidFactory.MEDIUM_SIZE) {
-            return 130;
+            return 40;
         } else if (size === Jasteroids.AsteroidFactory.SMALL_SIZE) {
-            return 60;
+            return 20;
         }
 
-        return 180;
+        return 60;
     },
 
     _getRandomShape: function () {

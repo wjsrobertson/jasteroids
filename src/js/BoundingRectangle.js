@@ -39,5 +39,5 @@ Jasteroids.BoundingRectangle.prototype = {
 
     getWidth: function() {
         return this.width;
-    },
+    }
 };

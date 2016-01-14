@@ -4,8 +4,37 @@
     <title>Asteroids Game</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/Jasteroids.js" type="text/javascript"></script>
+    <script src="js/Vector2d.js" type="text/javascript"></script>
+    <script src="js/Line2d.js" type="text/javascript"></script>
+    <script src="js/FloatingObject.js" type="text/javascript"></script>
+    <script src="js/Polygon2d.js" type="text/javascript"></script>
+    <script src="js/Triangle2d.js" type="text/javascript"></script>
+    <script src="js/BoundingRectangle.js" type="text/javascript"></script>
+    <script src="js/Circle2d.js" type="text/javascript"></script>
+    <script src="js/Settings.js" type="text/javascript"></script>
+    <script src="js/elements/Star.js" type="text/javascript"></script>
+    <script src="js/elements/RotatingLine.js" type="text/javascript"></script>
+    <script src="js/elements/SpaceShip.js" type="text/javascript"></script>
+    <script src="js/elements/Missile.js" type="text/javascript"></script>
+    <script src="js/elements/Asteroid.js" type="text/javascript"></script>
+    <script src="js/elements/AsteroidFactory.js" type="text/javascript"></script>
+    <script src="js/elements/Explosion.js" type="text/javascript"></script>
+    <script src="js/elements/ExplosionFactory.js" type="text/javascript"></script>
+    <script src="js/elements/GameBoundary.js" type="text/javascript"></script>
+    <script src="js/elements/GameModel.js" type="text/javascript"></script>
+    <script src="js/elements/EventTypes.js" type="text/javascript"></script>
+    <script src="js/elements/GameController.js" type="text/javascript"></script>
+    <script src="js/elements/CollisionController.js" type="text/javascript"></script>
+    <script src="js/elements/CollisionDetector.js" type="text/javascript"></script>
+    <script src="js/elements/PositionController.js" type="text/javascript"></script>
+    <script src="js/elements/CanvasView.js" type="text/javascript"></script>
+    <script src="js/elements/Initialiser.js" type="text/javascript"></script>
 </head>
 <body>
-
+<canvas id="jasteroids" width="600" height="400"></canvas>
+<script>
+    Jasteroids.Initialiser.bindToCanvasAndStartGame("jasteroids");
+</script>
 </body>
 </html>
