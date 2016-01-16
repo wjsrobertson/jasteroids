@@ -23,8 +23,8 @@ Jasteroids.AsteroidFactory = {
         asteroid.setAngularVelocity(randomAngularVelocity);
 
         asteroid.setSize(size);
-        asteroid.setPosition(position);
-        asteroid.setVelocity(velocity);
+        asteroid.setPosition(position.clone());
+        asteroid.setVelocity(velocity.clone());
 
         return asteroid;
     },
@@ -96,11 +96,12 @@ Jasteroids.AsteroidFactory = {
         return vertices;
     },
 
+    // TODO - revisit this and create a better velocity
     _getRandomVelocityCloseToAsteroidVelocity: function (asteroid) {
         var randomVelocity = asteroid.getVelocity().clone();
-        randomVelocity.scaleBy(3 + Math.random() * 5);
-        randomVelocity.add(new Jasteroids.Vector2D(1 - Math.random() * 2, 1 - Math.random() * 3));
-        randomVelocity.add(new Jasteroids.Vector2D(5, 5));
+        randomVelocity.add(new Jasteroids.Vector2D(-3 + Math.random() * 6, -3 + Math.random() * 6));
+        randomVelocity.truncate(asteroid.getMaxSpeed());
+
         return randomVelocity;
     }
 };

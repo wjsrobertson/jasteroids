@@ -109,6 +109,14 @@ Jasteroids.Vector2D.prototype.getY = function () {
     return this.y;
 };
 
+Jasteroids.Vector2D.prototype.setX = function (x) {
+    this.x = x;
+};
+
+Jasteroids.Vector2D.prototype.setY = function (y) {
+    this.y = y;
+};
+
 Jasteroids.Vector2D.prototype.toString = function () {
     return "(" + this.getX() + "," + this.getY() + ")";
 };

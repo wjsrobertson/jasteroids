@@ -1,7 +1,7 @@
 var Jasteroids = Jasteroids || {};
 
 Jasteroids.RotatingLine = function (line, angularVelocity, velocity) {
-    Jasteroids.Line2D.call(this, line.getStart(), line.getEnd());
+    Jasteroids.Line2D.call(this, line.getStart().clone(), line.getEnd().clone());
 
     this.angularVelocity = angularVelocity;
     this.velocity = velocity;

@@ -8,6 +8,10 @@ Jasteroids.GameController = function (model, bounds, listeners, controllers) {
 };
 
 Jasteroids.GameController.prototype.newGame = function () {
+    this.model.livesRemaining  = Jasteroids.Settings.NUM_LIVES_START;
+    this.model.deadTimer = 0;
+    this.model.createShipTimer = 0;
+
     this._initStars();
     this._initSpaceShip();
     this._initAsteroids(3);
@@ -20,6 +24,7 @@ Jasteroids.GameController.prototype.tick = function () {
         controller.tick();
     });
 
+    this._handleAging();
     this._nextLevelCheck();
     this._gameOverCheck();
 };
@@ -41,10 +46,8 @@ Jasteroids.GameController.prototype._initStars = function () {
 };
 
 Jasteroids.GameController.prototype._initSpaceShip = function () {
-    var ship = this.model.spaceShip;
-
-    ship.reset();
-    ship.setPosition(new Jasteroids.Vector2D(this.bounds.width / 2, this.bounds.getHeight() / 2));
+    this.model.spaceShip = new Jasteroids.SpaceShip();
+    this.model.spaceShip.setPosition(new Jasteroids.Vector2D(this.bounds.width / 2, this.bounds.getHeight() / 2));
 };
 
 Jasteroids.GameController.prototype._initAsteroids = function (numAsteroids) {
@@ -83,36 +86,38 @@ Jasteroids.GameController.prototype._nextLevelCheck = function () {
         this.model.level = this.model.level + 1;
         this._initAsteroids(this.model.level);
         this._initSpaceShip();
-
         this._notifyListeners(Jasteroids.EventTypes.NEW_LEVEL);
+    }
+};
 
-        this.model.explosions.forEach(function (explosion, index) {
-            if (explosion.getAge() > Jasteroids.Settings.EXPLOSION_MAX_AGE) {
-                this.model.explosions[i].splice(index, 1);
-            }
-        }, this);
-
-        if (this.model.missile) {
-            if (this.model.missile.getAge() > Jasteroids.Settings.MISSLE_MAX_AGE_SHIP) {
-                this.model.missile = null;
-            }
+Jasteroids.GameController.prototype._handleAging = function () {
+    this.model.explosions.forEach(function (explosion, index) {
+        if (explosion.getAge() > Jasteroids.Settings.EXPLOSION_MAX_AGE) {
+            this.model.explosions.splice(index, 1);
         }
+    }, this);
 
-        if (this.model.saucerMissile) {
-            if (this.model.saucerMissile.getAge() > Jasteroids.Settings.MISSLE_MAX_AGE_SAUCER) {
-                this.model.saucerMissile = null;
-            }
+    if (this.model.missile) {
+        if (this.model.missile.getAge() > Jasteroids.Settings.MISSLE_MAX_AGE_SHIP) {
+            this.model.missile = null;
         }
+    }
 
-        if (this.model.spaceShip) {
-            if ( spaceShip.getAge() == Jasteroids.Settings.SPACE_SHIP_MORTAL_AGE ) {
-                this._notifyListeners(Jasteroids.EventTypes.SHIP_MORTAL);
-            }
-        } else {
-            this.model.createShipTimer = this.model.createShipTimer + 1;
-            if (this.model.createShipTimer > Jasteroids.Settings.CREATE_SHIP_WAIT && this.model.livesRemaining > 0) {
-                this._initSpaceShip();
-            }
+    if (this.model.saucerMissile) {
+        if (this.model.saucerMissile.getAge() > Jasteroids.Settings.MISSLE_MAX_AGE_SAUCER) {
+            this.model.saucerMissile = null;
+        }
+    }
+
+    if (this.model.spaceShip) {
+        if (this.model.spaceShip.getAge() == Jasteroids.Settings.SPACE_SHIP_MORTAL_AGE) {
+            this._notifyListeners(Jasteroids.EventTypes.SHIP_MORTAL);
+        }
+    } else {
+        this.model.deadTimer = this.model.deadTimer + 1;
+        this.model.createShipTimer = this.model.createShipTimer + 1;
+        if (this.model.createShipTimer > Jasteroids.Settings.CREATE_SHIP_WAIT && this.model.livesRemaining > 0) {
+            this._initSpaceShip();
         }
     }
 };
@@ -122,7 +127,6 @@ Jasteroids.GameController.prototype._gameOverCheck = function () {
         this.model.deadTimer = this.model.deadTimer + 1;
 
         if (this.model.deadTimer > Jasteroids.Settings.DEAD_GAMEOVER_WAIT) {
-            this.model.deadTimer = -1;
             this._notifyListeners(Jasteroids.EventTypes.GAME_END);
         }
     }

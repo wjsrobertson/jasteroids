@@ -9,7 +9,7 @@ Jasteroids.PositionController = function (model, bounds, notifyListeners) {
 Jasteroids.PositionController.prototype.tick = function () {
     if (this.model.missile) {
         this.model.missile.update();
-        this._correctPosition(missile);
+        this._correctPosition(this.model.missile);
     }
 
     if (this.model.saucerMissile) {
@@ -33,9 +33,9 @@ Jasteroids.PositionController.prototype.tick = function () {
     if (this.model.saucer) {
         this.model.saucer.update();
 
-        if (saucer.getPosition().getX() > this.bounds.gameMaxX) {
+        if (saucer.getPosition().getX() > this.bounds.width) {
             this.model.saucer = null;
-        } else if (saucer.getPosition().getX() < this.bounds.gameMinX) {
+        } else if (saucer.getPosition().getX() < 0) {
             this.model.saucer = null;
         }
     }
@@ -49,16 +49,16 @@ Jasteroids.PositionController.prototype.tick = function () {
 Jasteroids.PositionController.prototype._correctPosition = function (object) {
     var position = object.getPosition();
 
-    if (position.getX() > this.bounds.gameMaxX) {
-        position.setX(this.bounds.gameMinX);
-    } else if (position.getX() < this.bounds.gameMinX) {
-        position.setX(this.bounds.gameMaxX);
+    if (position.getX() > this.bounds.width) {
+        position.setX(0);
+    } else if (position.getX() < 0) {
+        position.setX(this.bounds.width);
     }
 
-    if (position.getY() > this.bounds.gameMaxY) {
-        position.setY(this.bounds.gameMinY);
-    } else if (position.getY() < this.bounds.gameMinY) {
-        position.setY(this.bounds.gameMaxY);
+    if (position.getY() > this.bounds.height) {
+        position.setY(0);
+    } else if (position.getY() < 0) {
+        position.setY(this.bounds.height);
     }
 };
 

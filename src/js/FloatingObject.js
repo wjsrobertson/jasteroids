@@ -41,10 +41,6 @@ Jasteroids.FloatingObject.prototype = {
         return this.position;
     },
 
-    setPosition: function(x, y) {
-        this.position.setXY(x, y);
-    },
-
     setPosition: function(position) {
         this.position = position;
     },
