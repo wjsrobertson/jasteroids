@@ -24,6 +24,16 @@ Jasteroids.UserInputController = function (container, model, soundPlayer) {
             };
         })(this.pressedKeys)
     );
+
+    container.addEventListener('keyup',
+        (function (soundPlayer) {
+            return function (event) {
+                if (event && Jasteroids.UserInputController.Keys.S_KEY == event.keyCode) {
+                    soundPlayer.toggleSound();
+                }
+            };
+        })(soundPlayer)
+    );
 };
 
 Jasteroids.UserInputController.prototype.tick = function () {
@@ -40,7 +50,7 @@ Jasteroids.UserInputController.prototype.tick = function () {
             this.model.spaceShip.reverseThrust();
         }
 
-        if (! this.model.missile) {
+        if (!this.model.missile) {
             if (this.pressedKeys[Jasteroids.UserInputController.Keys.SPACE_KEY]) {
                 this.soundPlayer.playShootSound();
                 var missile = new Jasteroids.Missile();
@@ -59,7 +69,8 @@ Jasteroids.UserInputController.Keys = {
     RIGHT_KEY: 39,
     UP_KEY: 38,
     DOWN_KEY: 40,
-    SPACE_KEY: 32
+    SPACE_KEY: 32,
+    S_KEY: 83
 };
 
 Object.freeze(Jasteroids.UserInputController.Keys);

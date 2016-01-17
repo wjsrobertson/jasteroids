@@ -2,63 +2,70 @@ var Jasteroids = Jasteroids || {};
 
 Jasteroids.SoundPlayer = function () {
     this.audio = {};
-    this.enableSound = true;
+    this.currentAudioCounterForSound = {};
+    this.soundEnabled = false;
     this.init();
 };
 
 Jasteroids.SoundPlayer.prototype.init = function () {
     for (var soundName in Jasteroids.SoundPlayer.Sounds) {
         if (Jasteroids.SoundPlayer.Sounds.hasOwnProperty(soundName)) {
-            var path = Jasteroids.SoundPlayer.Sounds[soundName];
-            this.audio[soundName] = new Audio(path);
+            var sound = Jasteroids.SoundPlayer.Sounds[soundName];
+            for (var i = 0; i < sound.numConcurrent; i++) {
+                if (!this.audio[soundName]) {
+                    this.audio[soundName] = [];
+                }
+                this.audio[soundName][i] = new Audio(sound.path);
+            }
+            this.currentAudioCounterForSound[soundName] = 0;
         }
     }
 };
 
-Jasteroids.SoundPlayer.prototype.playExplosionSound = function () {
-    if (this.enableSound) {
-        this.audio.EXPLOSION.play();
-        this.audio.EXPLOSION.play();
+Jasteroids.SoundPlayer.prototype._playSound = function (soundName) {
+    if (this.soundEnabled) {
+        var counter = this.currentAudioCounterForSound[soundName];
+        this.audio[soundName][counter].play();
+        this.currentAudioCounterForSound[soundName] = this.currentAudioCounterForSound[soundName] + 1;
+        var numConcurrent = Jasteroids.SoundPlayer.Sounds[soundName]['numConcurrent'];
+        this.currentAudioCounterForSound[soundName] = this.currentAudioCounterForSound[soundName] % numConcurrent;
     }
+};
+
+
+Jasteroids.SoundPlayer.prototype.playExplosionSound = function () {
+    this._playSound("EXPLOSION");
 };
 
 Jasteroids.SoundPlayer.prototype.playShootSound = function () {
-    if (this.enableSound) {
-        this.audio.SHOOT.play();
-    }
+    this._playSound("SHOOT");
 };
 
 Jasteroids.SoundPlayer.prototype.playGameStartSound = function () {
-    if (this.enableSound) {
-        this.audio.GAME_START.play();
-    }
-};
-
-Jasteroids.SoundPlayer.prototype.playGameStartSound = function () {
-    if (this.enableSound) {
-        this.audio.GAME_START.play();
-    }
+    this._playSound("GAME_START");
 };
 
 Jasteroids.SoundPlayer.prototype.playGameOverSound = function () {
-    if (this.enableSound) {
-        this.audio.GAME_OVER.play();
-    }
+    this._playSound("GAME_OVER");
 };
 
 Jasteroids.SoundPlayer.prototype.playLoseLifeSound = function () {
-    if (this.enableSound) {
-        this.audio.LOSE_LIFE.play();
+    this._playSound("LOSE_LIFE");
+};
+
+Jasteroids.SoundPlayer.prototype.toggleSound = function () {
+    this.soundEnabled = !this.soundEnabled;
+    if (this.soundEnabled) {
+        this.playGameStartSound();
     }
 };
 
 Jasteroids.SoundPlayer.Sounds = {
-    EXPLOSION: "media/explosion.wav",
-    MUSIC: "media/menu.mid",
-    SAUCER: "media/saucer.wav",
-    SHOOT: "media/shoot.wav",
-    GAME_START: "media/start.wav",
-    GAME_OVER: "media/lose_life.wav",
-    LOSE_LIFE: "media/game_over.wav"
+    "EXPLOSION": {path: "media/harp.wav", numConcurrent: 3},
+    "SAUCER": {path: "media/saucer.wav", numConcurrent: 1},
+    "SHOOT": {path: "media/shoot.wav", numConcurrent: 2},
+    "GAME_START": {path: "media/bow.wav", numConcurrent: 1},
+    "GAME_OVER": {path: "media/lose_life.wav", numConcurrent: 1},
+    "LOSE_LIFE": {path: "media/game_over.wav", numConcurrent: 2}
 };
 Object.freeze(Jasteroids.SoundPlayer.Sounds);

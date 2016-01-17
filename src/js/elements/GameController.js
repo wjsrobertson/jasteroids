@@ -12,6 +12,7 @@ Jasteroids.GameController.prototype.newGame = function () {
     this.model.livesRemaining  = Jasteroids.Settings.NUM_LIVES_START;
     this.model.deadTimer = 0;
     this.model.createShipTimer = 0;
+    this.model.gameInProgress = true;
 
     this._initStars();
     this._initSpaceShip();
@@ -88,7 +89,7 @@ Jasteroids.GameController.prototype._nextLevelCheck = function () {
         this.model.level = this.model.level + 1;
         this._initAsteroids(this.model.level);
         this._initSpaceShip();
-        this._notifyListeners(Jasteroids.EventTypes.NEW_LEVEL);
+        this.soundPlayer.playGameStartSound();
     }
 };
 
@@ -125,7 +126,7 @@ Jasteroids.GameController.prototype._handleAging = function () {
 };
 
 Jasteroids.GameController.prototype._gameOverCheck = function () {
-    if (this.model.livesRemaining == 0) {
+    if (this.model.livesRemaining == 0 && this.model.gameInProgress) {
         this.model.deadTimer = this.model.deadTimer + 1;
 
         if (this.model.deadTimer > Jasteroids.Settings.DEAD_GAMEOVER_WAIT) {
@@ -133,5 +134,6 @@ Jasteroids.GameController.prototype._gameOverCheck = function () {
         }
 
         this.soundPlayer.playGameOverSound();
+        this.model.gameInProgress = false;
     }
 };

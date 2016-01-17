@@ -12,7 +12,7 @@ Jasteroids.GameModel = function () {
     this.score = 0;
     this.level = 1;
     this.deadTimer = 0;
-    this.thrusterOn = false;
+    this.gameInProgress = false;
     this.createShipTimer = 0;
 };
 
