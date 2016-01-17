@@ -76,14 +76,14 @@ Jasteroids.SoundPlayer.prototype.toggleSound = function () {
 };
 
 Jasteroids.SoundPlayer.Sounds = {
-    "EXPLOSION": {path: "media/harp.wav", numConcurrent: 3},
-    "SAUCER": {path: "media/inmymind.wav", numConcurrent: 1},
-    "SHOOT": {path: "media/shoot.wav", numConcurrent: 2},
-    "GAME_START": {path: "media/bow.wav", numConcurrent: 1},
-    "GAME_OVER": {path: "media/lose_life.wav", numConcurrent: 1},
-    "LOSE_LIFE": {path: "media/game_over.wav", numConcurrent: 2},
-    "MORTAL": {path: "media/bellstr.wav", numConcurrent: 1},
-    "MISSILE_BLOCKED": {path: "media/pensive.wav", numConcurrent: 3},
-    SAUCER_EXPLOSION: {path: "media/orchblst.wav", numConcurrent: 3}
+    "EXPLOSION": {path: "media/harp.ogg", numConcurrent: 3},
+    "SAUCER": {path: "media/inmymind.ogg", numConcurrent: 1},
+    "SHOOT": {path: "media/shoot.ogg", numConcurrent: 2},
+    "GAME_START": {path: "media/bow.ogg", numConcurrent: 1},
+    "GAME_OVER": {path: "media/lose_life.ogg", numConcurrent: 1},
+    "LOSE_LIFE": {path: "media/game_over.ogg", numConcurrent: 2},
+    "MORTAL": {path: "media/bellstr.ogg", numConcurrent: 1},
+    "MISSILE_BLOCKED": {path: "media/pensive.ogg", numConcurrent: 3},
+    SAUCER_EXPLOSION: {path: "media/orchblst.ogg", numConcurrent: 3}
 };
 Object.freeze(Jasteroids.SoundPlayer.Sounds);
