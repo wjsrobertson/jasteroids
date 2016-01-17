@@ -39,12 +39,20 @@ Jasteroids.UserInputController = function (container, model, soundPlayer, gameCo
         (function (model, gameController) {
             return function (event) {
                 if (event && Jasteroids.UserInputController.Keys.N_KEY == event.keyCode) {
-                    //if (! model.gameInProgress) {
-                        gameController.newGame();
-                    //}
+                    gameController.newGame();
                 }
             };
         })(this.model, gameController)
+    );
+
+    container.addEventListener('keyup',
+        (function (model) {
+            return function () {
+                if (event && Jasteroids.UserInputController.Keys.A_KEY == event.keyCode) {
+                    model.apeshitMode = !model.apeshitMode;
+                }
+            };
+        })(this.model)
     );
 };
 
@@ -85,7 +93,8 @@ Jasteroids.UserInputController.Keys = {
     DOWN_KEY: 40,
     SPACE_KEY: 32,
     S_KEY: 83,
-    N_KEY: 78
+    N_KEY: 78,
+    A_KEY:65
 };
 
 Object.freeze(Jasteroids.UserInputController.Keys);

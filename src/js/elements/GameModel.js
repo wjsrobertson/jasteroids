@@ -14,6 +14,7 @@ Jasteroids.GameModel = function () {
     this.deadTimer = 0;
     this.gameInProgress = false;
     this.createShipTimer = 0;
+    this.apeshitMode = false;
 };
 
 Jasteroids.GameModel.prototype.addToScore = function (numPoints) {

@@ -1,9 +1,10 @@
 var Jasteroids = Jasteroids || {};
 
-Jasteroids.CanvasView = function (canvas, model, bounds) {
+Jasteroids.CanvasView = function (canvas, model, bounds, apeshitColourProvider) {
     this.graphics = canvas.getContext("2d");
     this.model = model;
     this.bounds = bounds;
+    this.apeshitColourProvider = apeshitColourProvider;
     this.spaceShipShape = new Jasteroids.SpaceShip();
     this.spaceShipWidth = this.spaceShipShape.getPolygon().getBoundingRectangle().getWidth();
 };
@@ -27,7 +28,11 @@ Jasteroids.CanvasView.prototype._getBackgroundColour = function() {
 };
 
 Jasteroids.CanvasView.prototype._getForegroundColour = function() {
-    return "#FFFFFF";
+    if (this.model.apeshitMode) {
+        return this.apeshitColourProvider.nextColour();
+    } else {
+        return "#FFFFFF";
+    }
 };
 
 Jasteroids.CanvasView.prototype._clearBackground = function clearBackground() {
