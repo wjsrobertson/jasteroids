@@ -3,7 +3,7 @@ var Jasteroids = Jasteroids || {};
 Jasteroids.SoundPlayer = function () {
     this.audio = {};
     this.currentAudioCounterForSound = {};
-    this.soundEnabled = false;
+    this.soundEnabled = true;
     this.init();
 };
 

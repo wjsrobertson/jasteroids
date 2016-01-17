@@ -1,7 +1,7 @@
 var Jasteroids = Jasteroids || {};
 
 Jasteroids.Initialiser = {
-    bindToCanvasAndStartGame: function(canvasId) {
+    bindToCanvasAndStartGame: function (canvasId) {
         var model = new Jasteroids.GameModel();
         var bounds = new Jasteroids.BoundingRectangle(0, 0, 600, 400);
         var soundPlayer = new Jasteroids.SoundPlayer();
@@ -12,15 +12,13 @@ Jasteroids.Initialiser = {
 
         var collisionController = new Jasteroids.CollisionController(model, bounds, soundPlayer);
         var positionController = new Jasteroids.PositionController(model, bounds);
-        var userInputController = new Jasteroids.UserInputController(window, model, soundPlayer);
-        var controllers = [collisionController, positionController, userInputController];
+        var gameController = new Jasteroids.GameController(model, bounds, soundPlayer);
+        var userInputController = new Jasteroids.UserInputController(window, model, soundPlayer, gameController);
 
-        var gameController = new Jasteroids.GameController(model, bounds, listeners, controllers, soundPlayer);
-        gameController.newGame();
+        var controllers = [collisionController, positionController, userInputController, gameController];
+        var orchestrator = new Jasteroids.GameOrchestrator(controllers, view);
 
-        window.setInterval(function () {
-            gameController.tick();
-            view.draw();
-        }, 40);
-    }
+        gameController.demo();
+        orchestrator.startGameLoop();
+}
 };

@@ -1,6 +1,6 @@
 var Jasteroids = Jasteroids || {};
 
-Jasteroids.UserInputController = function (container, model, soundPlayer) {
+Jasteroids.UserInputController = function (container, model, soundPlayer, gameController) {
     this.model = model;
     this.pressedKeys = {};
     this.soundPlayer = soundPlayer;
@@ -33,6 +33,18 @@ Jasteroids.UserInputController = function (container, model, soundPlayer) {
                 }
             };
         })(soundPlayer)
+    );
+
+    container.addEventListener('keyup',
+        (function (model, gameController) {
+            return function (event) {
+                if (event && Jasteroids.UserInputController.Keys.N_KEY == event.keyCode) {
+                    if (! model.gameInProgress) {
+                        gameController.newGame();
+                    }
+                }
+            };
+        })(this.model, gameController)
     );
 };
 
@@ -70,7 +82,8 @@ Jasteroids.UserInputController.Keys = {
     UP_KEY: 38,
     DOWN_KEY: 40,
     SPACE_KEY: 32,
-    S_KEY: 83
+    S_KEY: 83,
+    N_KEY: 78
 };
 
 Object.freeze(Jasteroids.UserInputController.Keys);

@@ -1,11 +1,14 @@
 var Jasteroids = Jasteroids || {};
 
-Jasteroids.GameController = function (model, bounds, listeners, controllers, soundPlayer) {
+Jasteroids.GameController = function (model, bounds, soundPlayer) {
     this.model = model;
     this.bounds = bounds;
-    this.listeners = listeners || [];
-    this.controllers = controllers || [];
     this.soundPlayer = soundPlayer;
+};
+
+Jasteroids.GameController.prototype.demo = function () {
+    this._initStars();
+    this._initAsteroids(1);
 };
 
 Jasteroids.GameController.prototype.newGame = function () {
@@ -16,17 +19,12 @@ Jasteroids.GameController.prototype.newGame = function () {
 
     this._initStars();
     this._initSpaceShip();
-    this._initAsteroids(3);
+    this._initAsteroids(1);
 
     this.soundPlayer.playGameStartSound();
-    this._notifyListeners(Jasteroids.EventTypes.GAME_START);
 };
 
 Jasteroids.GameController.prototype.tick = function () {
-    this.controllers.forEach(function (controller) {
-        controller.tick();
-    });
-
     this._handleAging();
     this._nextLevelCheck();
     this._gameOverCheck();
@@ -54,6 +52,8 @@ Jasteroids.GameController.prototype._initSpaceShip = function () {
 };
 
 Jasteroids.GameController.prototype._initAsteroids = function (numAsteroids) {
+    this.model.asteroids = [];
+
     for (var i = 0; i < numAsteroids; i++) {
         var xVelocity = 2 * Math.random() + 1;
         if (Math.random() >= 0.5) {
@@ -76,12 +76,6 @@ Jasteroids.GameController.prototype._initAsteroids = function (numAsteroids) {
 
 Jasteroids.GameController.prototype._initSaucer = function () {
 // TODO - no saucer yet
-};
-
-Jasteroids.GameController.prototype._notifyListeners = function (eventType) {
-    this.listeners.forEach(function (listener) {
-        listener(eventType);
-    });
 };
 
 Jasteroids.GameController.prototype._nextLevelCheck = function () {
@@ -114,7 +108,6 @@ Jasteroids.GameController.prototype._handleAging = function () {
 
     if (this.model.spaceShip) {
         if (this.model.spaceShip.getAge() == Jasteroids.Settings.SPACE_SHIP_MORTAL_AGE) {
-            this._notifyListeners(Jasteroids.EventTypes.SHIP_MORTAL);
         }
     } else {
         this.model.deadTimer = this.model.deadTimer + 1;
@@ -130,7 +123,6 @@ Jasteroids.GameController.prototype._gameOverCheck = function () {
         this.model.deadTimer = this.model.deadTimer + 1;
 
         if (this.model.deadTimer > Jasteroids.Settings.DEAD_GAMEOVER_WAIT) {
-            this._notifyListeners(Jasteroids.EventTypes.GAME_END);
         }
 
         this.soundPlayer.playGameOverSound();
