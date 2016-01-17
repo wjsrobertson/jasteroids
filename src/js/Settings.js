@@ -19,8 +19,8 @@ Jasteroids.Settings = {
     MISSLE_MAX_AGE_SAUCER: 20, // Age a missile be active for after it has been fired by a flying saucer
     ASTEROID_HIT_POINTS: 10, // Score for killing an asteroid
     SAUCER_HIT_POINTS: 100, // Score for killing the flying saucer
-    SAUCER_ACTIVITY: 500, // business of saucer - smaller number means more chance of saucer appearing per gtame tick
-    SAUCER_MISSILE_ACTIVITY: 3,
+    SAUCER_ACTIVITY: 1000, // business of saucer - smaller number means more chance of saucer appearing per gtame tick
+    SAUCER_MISSILE_ACTIVITY: 2,
     SAUCER_MAX_FORCE_X: 80,
     SAUCER_MAX_FORCE_Y: 20,
     SAUCER_Y_CHANGE_WAIT: 20,
