@@ -1,9 +1,9 @@
 var Jasteroids = Jasteroids || {};
 
-Jasteroids.CollisionController = function (model, bounds, notifyListeners) {
+Jasteroids.CollisionController = function (model, bounds, soundPlayer) {
     this.model = model;
     this.bounds = bounds;
-    this._notifyListeners = notifyListeners;
+    this.soundPlayer = soundPlayer;
 };
 
 Jasteroids.CollisionController.prototype.tick = function () {
@@ -60,6 +60,10 @@ Jasteroids.CollisionController.prototype._shipDeath = function () {
     this.model.livesRemaining = this.model.livesRemaining - 1;
     this.model.createShipTimer = 0;
     this.model.spaceShip = null;
+
+    if (this.model.livesRemaining > 0) {
+        this.soundPlayer.playLoseLifeSound();
+    }
 };
 
 Jasteroids.CollisionController.prototype._asteroidDeath = function (asteroidIndex) {
@@ -77,5 +81,7 @@ Jasteroids.CollisionController.prototype._asteroidDeath = function (asteroidInde
     this.model.explosions.push(explosion);
 
     this.model.addToScore(Jasteroids.Settings.ASTEROID_HIT_POINTS);
+
+    this.soundPlayer.playExplosionSound();
 
 };

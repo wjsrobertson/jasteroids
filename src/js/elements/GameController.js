@@ -1,10 +1,11 @@
 var Jasteroids = Jasteroids || {};
 
-Jasteroids.GameController = function (model, bounds, listeners, controllers) {
+Jasteroids.GameController = function (model, bounds, listeners, controllers, soundPlayer) {
     this.model = model;
     this.bounds = bounds;
     this.listeners = listeners || [];
     this.controllers = controllers || [];
+    this.soundPlayer = soundPlayer;
 };
 
 Jasteroids.GameController.prototype.newGame = function () {
@@ -16,6 +17,7 @@ Jasteroids.GameController.prototype.newGame = function () {
     this._initSpaceShip();
     this._initAsteroids(3);
 
+    this.soundPlayer.playGameStartSound();
     this._notifyListeners(Jasteroids.EventTypes.GAME_START);
 };
 
@@ -129,5 +131,7 @@ Jasteroids.GameController.prototype._gameOverCheck = function () {
         if (this.model.deadTimer > Jasteroids.Settings.DEAD_GAMEOVER_WAIT) {
             this._notifyListeners(Jasteroids.EventTypes.GAME_END);
         }
+
+        this.soundPlayer.playGameOverSound();
     }
 };

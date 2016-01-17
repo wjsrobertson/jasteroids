@@ -1,8 +1,9 @@
 var Jasteroids = Jasteroids || {};
 
-Jasteroids.UserInputController = function (container, model) {
+Jasteroids.UserInputController = function (container, model, soundPlayer) {
     this.model = model;
     this.pressedKeys = {};
+    this.soundPlayer = soundPlayer;
 
     container.addEventListener('keydown',
         (function (pressedKeys) {
@@ -41,6 +42,7 @@ Jasteroids.UserInputController.prototype.tick = function () {
 
         if (! this.model.missile) {
             if (this.pressedKeys[Jasteroids.UserInputController.Keys.SPACE_KEY]) {
+                this.soundPlayer.playShootSound();
                 var missile = new Jasteroids.Missile();
                 missile.setPosition(this.model.spaceShip.getPosition().clone());
                 var velocity = this.model.spaceShip.getDirection().clone();
