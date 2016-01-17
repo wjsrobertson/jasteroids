@@ -53,6 +53,10 @@ Jasteroids.SoundPlayer.prototype.playLoseLifeSound = function () {
     this._playSound("LOSE_LIFE");
 };
 
+Jasteroids.SoundPlayer.prototype.playMortalSound = function () {
+    this._playSound("MORTAL");
+};
+
 Jasteroids.SoundPlayer.prototype.toggleSound = function () {
     this.soundEnabled = !this.soundEnabled;
     if (this.soundEnabled) {
@@ -66,6 +70,7 @@ Jasteroids.SoundPlayer.Sounds = {
     "SHOOT": {path: "media/shoot.wav", numConcurrent: 2},
     "GAME_START": {path: "media/bow.wav", numConcurrent: 1},
     "GAME_OVER": {path: "media/lose_life.wav", numConcurrent: 1},
-    "LOSE_LIFE": {path: "media/game_over.wav", numConcurrent: 2}
+    "LOSE_LIFE": {path: "media/game_over.wav", numConcurrent: 2},
+    "MORTAL": {path: "media/bellstr.wav", numConcurrent: 1}
 };
 Object.freeze(Jasteroids.SoundPlayer.Sounds);

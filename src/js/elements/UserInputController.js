@@ -39,9 +39,9 @@ Jasteroids.UserInputController = function (container, model, soundPlayer, gameCo
         (function (model, gameController) {
             return function (event) {
                 if (event && Jasteroids.UserInputController.Keys.N_KEY == event.keyCode) {
-                    if (! model.gameInProgress) {
+                    //if (! model.gameInProgress) {
                         gameController.newGame();
-                    }
+                    //}
                 }
             };
         })(this.model, gameController)
@@ -64,13 +64,15 @@ Jasteroids.UserInputController.prototype.tick = function () {
 
         if (!this.model.missile) {
             if (this.pressedKeys[Jasteroids.UserInputController.Keys.SPACE_KEY]) {
-                this.soundPlayer.playShootSound();
-                var missile = new Jasteroids.Missile();
-                missile.setPosition(this.model.spaceShip.getPosition().clone());
-                var velocity = this.model.spaceShip.getDirection().clone();
-                velocity.scaleBy(missile.getMaxSpeed());
-                missile.setVelocity(velocity);
-                this.model.missile = missile;
+                if (this.model.spaceShip.getAge() >= Jasteroids.Settings.SPACE_SHIP_MORTAL_AGE) {
+                    this.soundPlayer.playShootSound();
+                    var missile = new Jasteroids.Missile();
+                    missile.setPosition(this.model.spaceShip.getPosition().clone());
+                    var velocity = this.model.spaceShip.getDirection().clone();
+                    velocity.scaleBy(missile.getMaxSpeed());
+                    missile.setVelocity(velocity);
+                    this.model.missile = missile;
+                }
             }
         }
     }

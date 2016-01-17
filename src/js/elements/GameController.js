@@ -15,6 +15,8 @@ Jasteroids.GameController.prototype.newGame = function () {
     this.model.livesRemaining  = Jasteroids.Settings.NUM_LIVES_START;
     this.model.deadTimer = 0;
     this.model.createShipTimer = 0;
+    this.model.level = 1;
+    this.model.score = 0;
     this.model.gameInProgress = true;
 
     this._initStars();
@@ -94,12 +96,6 @@ Jasteroids.GameController.prototype._handleAging = function () {
         }
     }, this);
 
-    if (this.model.missile) {
-        if (this.model.missile.getAge() > Jasteroids.Settings.MISSLE_MAX_AGE_SHIP) {
-            this.model.missile = null;
-        }
-    }
-
     if (this.model.saucerMissile) {
         if (this.model.saucerMissile.getAge() > Jasteroids.Settings.MISSLE_MAX_AGE_SAUCER) {
             this.model.saucerMissile = null;
@@ -108,6 +104,7 @@ Jasteroids.GameController.prototype._handleAging = function () {
 
     if (this.model.spaceShip) {
         if (this.model.spaceShip.getAge() == Jasteroids.Settings.SPACE_SHIP_MORTAL_AGE) {
+            this.soundPlayer.playMortalSound();
         }
     } else {
         this.model.deadTimer = this.model.deadTimer + 1;

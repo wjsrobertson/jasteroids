@@ -9,7 +9,13 @@ Jasteroids.PositionController = function (model, bounds, notifyListeners) {
 Jasteroids.PositionController.prototype.tick = function () {
     if (this.model.missile) {
         this.model.missile.update();
-        this._correctPosition(this.model.missile);
+        if (this.model.missile.getPosition().getX() > this.bounds.width
+            || this.model.missile.getPosition().getX() < 0
+            || this.model.missile.getPosition().getY() > this.bounds.height
+            || this.model.missile.getPosition().getY() < 0) {
+
+            this.model.missile = null;
+        }
     }
 
     if (this.model.saucerMissile) {
