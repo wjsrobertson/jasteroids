@@ -15,9 +15,11 @@ Jasteroids.CanvasView.prototype.draw = function () {
     this._drawLives();
     this._drawScore();
     this._drawAsteroids();
+    this._drawSaucer();
     this._drawSpaceShip();
     this._drawExplosions();
-    this._drawMissile();
+    this._drawMissile(this.model.missile);
+    this._drawMissile(this.model.saucerMissile);
 };
 
 Jasteroids.CanvasView.prototype._getBackgroundColour = function() {
@@ -90,6 +92,18 @@ Jasteroids.CanvasView.prototype._drawAsteroids = function () {
     }
 };
 
+Jasteroids.CanvasView.prototype._drawSaucer = function () {
+    var g = this.graphics;
+
+    if (this.model.saucer) {
+        g.fillStyle = this._getForegroundColour();
+        g.strokeStyle = this._getBackgroundColour();
+        this._drawFloatingObject(this.model.saucer);
+        g.stroke();
+        g.fill();
+    }
+};
+
 Jasteroids.CanvasView.prototype._drawSpaceShip = function () {
     var g = this.graphics;
 
@@ -129,14 +143,14 @@ Jasteroids.CanvasView.prototype._drawExplosions = function () {
     }, this);
 };
 
-Jasteroids.CanvasView.prototype._drawMissile = function () {
+Jasteroids.CanvasView.prototype._drawMissile = function (missile) {
     var g = this.graphics;
 
-    if (this.model.missile) {
+    if (missile) {
         this.graphics.strokeStyle = this._getForegroundColour();
         this.graphics.fillStyle = this._getForegroundColour();
         g.beginPath();
-        g.arc(this.model.missile.getPosition().getX(), this.model.missile.getPosition().getY(), 1, 0, 2 * Math.PI);
+        g.arc(missile.getPosition().getX(), missile.getPosition().getY(), 1, 0, 2 * Math.PI);
         g.closePath();
         g.fill();
         g.stroke();

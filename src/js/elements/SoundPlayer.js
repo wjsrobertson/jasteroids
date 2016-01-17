@@ -32,6 +32,9 @@ Jasteroids.SoundPlayer.prototype._playSound = function (soundName) {
     }
 };
 
+Jasteroids.SoundPlayer.prototype.playSaucerSound = function () {
+    this._playSound("SAUCER");
+};
 
 Jasteroids.SoundPlayer.prototype.playExplosionSound = function () {
     this._playSound("EXPLOSION");
@@ -57,6 +60,14 @@ Jasteroids.SoundPlayer.prototype.playMortalSound = function () {
     this._playSound("MORTAL");
 };
 
+Jasteroids.SoundPlayer.prototype.playMissileBlockedSound = function () {
+    this._playSound("MISSILE_BLOCKED");
+};
+
+Jasteroids.SoundPlayer.prototype.playSaucerExplosionSound = function () {
+    this._playSound("SAUCER_EXPLOSION");
+};
+
 Jasteroids.SoundPlayer.prototype.toggleSound = function () {
     this.soundEnabled = !this.soundEnabled;
     if (this.soundEnabled) {
@@ -66,11 +77,13 @@ Jasteroids.SoundPlayer.prototype.toggleSound = function () {
 
 Jasteroids.SoundPlayer.Sounds = {
     "EXPLOSION": {path: "media/harp.wav", numConcurrent: 3},
-    "SAUCER": {path: "media/saucer.wav", numConcurrent: 1},
+    "SAUCER": {path: "media/inmymind.wav", numConcurrent: 1},
     "SHOOT": {path: "media/shoot.wav", numConcurrent: 2},
     "GAME_START": {path: "media/bow.wav", numConcurrent: 1},
     "GAME_OVER": {path: "media/lose_life.wav", numConcurrent: 1},
     "LOSE_LIFE": {path: "media/game_over.wav", numConcurrent: 2},
-    "MORTAL": {path: "media/bellstr.wav", numConcurrent: 1}
+    "MORTAL": {path: "media/bellstr.wav", numConcurrent: 1},
+    "MISSILE_BLOCKED": {path: "media/pensive.wav", numConcurrent: 3},
+    SAUCER_EXPLOSION: {path: "media/orchblst.wav", numConcurrent: 3}
 };
 Object.freeze(Jasteroids.SoundPlayer.Sounds);

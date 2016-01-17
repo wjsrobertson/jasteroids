@@ -14,8 +14,9 @@ Jasteroids.Initialiser = {
         var positionController = new Jasteroids.PositionController(model, bounds);
         var gameController = new Jasteroids.GameController(model, bounds, soundPlayer);
         var userInputController = new Jasteroids.UserInputController(window, model, soundPlayer, gameController);
+        var saucerController = new Jasteroids.SaucerController(model, bounds, soundPlayer);
 
-        var controllers = [collisionController, positionController, userInputController, gameController];
+        var controllers = [collisionController, positionController, userInputController, gameController, saucerController];
         var orchestrator = new Jasteroids.GameOrchestrator(controllers, view);
 
         gameController.demo();

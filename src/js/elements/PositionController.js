@@ -39,9 +39,9 @@ Jasteroids.PositionController.prototype.tick = function () {
     if (this.model.saucer) {
         this.model.saucer.update();
 
-        if (saucer.getPosition().getX() > this.bounds.width) {
+        if (this.model.saucer.getPosition().getX() > this.bounds.width) {
             this.model.saucer = null;
-        } else if (saucer.getPosition().getX() < 0) {
+        } else if (this.model.saucer.getPosition().getX() < 0) {
             this.model.saucer = null;
         }
     }

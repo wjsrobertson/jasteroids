@@ -12,12 +12,14 @@ Jasteroids.GameController.prototype.demo = function () {
 };
 
 Jasteroids.GameController.prototype.newGame = function () {
-    this.model.livesRemaining  = Jasteroids.Settings.NUM_LIVES_START;
+    this.model.livesRemaining = Jasteroids.Settings.NUM_LIVES_START;
     this.model.deadTimer = 0;
     this.model.createShipTimer = 0;
     this.model.level = 1;
     this.model.score = 0;
     this.model.gameInProgress = true;
+    this.model.saucer = null;
+    this.model.saucerMissle = null;
 
     this._initStars();
     this._initSpaceShip();
@@ -74,10 +76,6 @@ Jasteroids.GameController.prototype._initAsteroids = function (numAsteroids) {
         var asteroid = Jasteroids.AsteroidFactory.create(position, velocity, Jasteroids.AsteroidFactory.LARGE_SIZE);
         this.model.asteroids.push(asteroid);
     }
-};
-
-Jasteroids.GameController.prototype._initSaucer = function () {
-// TODO - no saucer yet
 };
 
 Jasteroids.GameController.prototype._nextLevelCheck = function () {

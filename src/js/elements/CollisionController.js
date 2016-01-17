@@ -43,7 +43,12 @@ Jasteroids.CollisionController.prototype._collisionCheck = function () {
 
         if (Jasteroids.CollisionDetector.isItemCollidingWithMissile(asteroid, this.model.saucerMissile)) {
             this.model.saucerMissile = null;
+            this.soundPlayer.playMissileBlockedSound();
         }
+    }
+
+    if (Jasteroids.CollisionDetector.isItemCollidingWithMissile(this.model.saucer, this.model.missile)) {
+        this._saucerDeath();
     }
 
 };
@@ -83,5 +88,13 @@ Jasteroids.CollisionController.prototype._asteroidDeath = function (asteroidInde
     this.model.addToScore(Jasteroids.Settings.ASTEROID_HIT_POINTS);
 
     this.soundPlayer.playExplosionSound();
+};
 
+Jasteroids.CollisionController.prototype._saucerDeath = function (asteroidIndex) {
+    this.model.addToScore(Jasteroids.Settings.SAUCER_HIT_POINTS);
+    var explosion = Jasteroids.ExplosionFactory.create(this.model.saucer);
+    this.model.explosions.push(explosion);
+    this.soundPlayer.playSaucerExplosionSound();
+    this.model.saucer = null;
+    this.model.missile = null;
 };

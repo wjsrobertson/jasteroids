@@ -69,7 +69,7 @@ Jasteroids.UserInputController.prototype.tick = function () {
                     var missile = new Jasteroids.Missile();
                     missile.setPosition(this.model.spaceShip.getPosition().clone());
                     var velocity = this.model.spaceShip.getDirection().clone();
-                    velocity.scaleBy(missile.getMaxSpeed());
+                    velocity.scaleBy(Jasteroids.Settings.SPACE_SHIP_MISSILE_MAX_SPEED);
                     missile.setVelocity(velocity);
                     this.model.missile = missile;
                 }
