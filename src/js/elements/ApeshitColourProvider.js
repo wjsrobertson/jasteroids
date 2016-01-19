@@ -1,42 +1,57 @@
 var Jasteroids = Jasteroids || {};
 
 Jasteroids.ApeshitColourProvider = function () {
-    this.currentComponent = 0;
-    this.number = 0;
-    this.increment = 4;
-    this.components = [
-        [1, 0, 0],
-        [0, 1, 0],
-        [0, 0, 1],
-        [1, 1, 0],
-        [0, 1, 1],
-        [1, 0, 1]
+    this.MIN_VALUE = 80;
+    this.MAX_VALUE = 255;
+    this.INCREMENT = 15;
+
+    this.currentComponentIndex = 0;
+    this.currentValue = 40;
+    this.rgbComponentsToInclude = [
+        [true,  false, false],
+        [true,  true,  false],
+        [false, true,  true],
+        [true,  false, true],
+        [false, true,  false]
     ];
 };
 
 Jasteroids.ApeshitColourProvider.prototype.nextColour = function () {
-    this.number = this.number + this.increment;
+    this.currentValue = this.currentValue + this.INCREMENT;
 
-    if (this.number > 255) {
-        this.number = this.number % 255 + 200;
-        this.currentComponent = this.currentComponent + 1;
-        this.currentComponent = this.currentComponent % this.components.length;
+    if (this.currentValue > this.MAX_VALUE) {
+        this.INCREMENT = -this.INCREMENT;
+        this.currentValue = this.MAX_VALUE;
+    } else if (this.currentValue < this.MIN_VALUE) {
+        this.INCREMENT = -this.INCREMENT;
+        this.currentValue = this.MIN_VALUE;
+        this.currentComponentIndex = this.currentComponentIndex + 1;
+        this.currentComponentIndex = this.currentComponentIndex % this.rgbComponentsToInclude.length;
     }
+   
+    var component = this.rgbComponentsToInclude[this.currentComponentIndex];
 
-    var component = this.components[this.currentComponent];
-    var redPart = (component[0] * this.number).toString(16);
-    if (redPart.length < 2) {
-        redPart = "0" + redPart;
-    }
-    var greenPart = (component[1] * this.number).toString(16);
-    if (greenPart.length < 2) {
-        greenPart = "0" + greenPart;
-    }
-    var bluePart = (component[2] * this.number).toString(16);
-    if (bluePart.length < 2) {
-        bluePart = "0" + bluePart;
-    }
+    var includeRed = component[0];
+    var redPart = this._getComponentValue(includeRed, this.currentValue);
+
+    var includeGreen = component[1];
+    var greenPart = this._getComponentValue(includeGreen, this.currentValue);
+
+    var includeBlue = component[2];
+    var bluePart = this._getComponentValue(includeBlue, this.currentValue);
 
     return '#' + redPart + greenPart + bluePart;
 };
 
+Jasteroids.ApeshitColourProvider.prototype._getComponentValue = function(includeComponent, value) {
+    var partValue = "00";
+
+    if (includeComponent) {
+        partValue = value.toString(16);
+        if (partValue.length < 2) {
+            partValue = "0" + partValue;
+        }
+    }
+
+    return partValue;
+};
