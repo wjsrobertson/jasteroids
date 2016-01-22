@@ -5,54 +5,26 @@ Jasteroids.UserInputController = function (container, model, soundPlayer, gameCo
     this.pressedKeys = {};
     this.soundPlayer = soundPlayer;
 
+    var pressedKeys = this.pressedKeys;
+
     container.addEventListener('keydown',
-        (function (pressedKeys) {
-            return function (event) {
-                if (event) {
-                    pressedKeys[event.keyCode] = true;
-                }
-            };
-        })(this.pressedKeys)
+        function (event) {
+            pressedKeys[event.keyCode] = true;
+        }
     );
 
     container.addEventListener('keyup',
-        (function (pressedKeys) {
-            return function (event) {
-                if (event) {
-                    pressedKeys[event.keyCode] = false;
-                }
-            };
-        })(this.pressedKeys)
-    );
+        function (event) {
+            pressedKeys[event.keyCode] = false;
 
-    container.addEventListener('keyup',
-        (function (soundPlayer) {
-            return function (event) {
-                if (event && Jasteroids.UserInputController.Keys.S_KEY == event.keyCode) {
-                    soundPlayer.toggleSound();
-                }
-            };
-        })(soundPlayer)
-    );
-
-    container.addEventListener('keyup',
-        (function (model, gameController) {
-            return function (event) {
-                if (event && Jasteroids.UserInputController.Keys.N_KEY == event.keyCode) {
-                    gameController.newGame();
-                }
-            };
-        })(this.model, gameController)
-    );
-
-    container.addEventListener('keyup',
-        (function (model) {
-            return function () {
-                if (event && Jasteroids.UserInputController.Keys.A_KEY == event.keyCode) {
-                    model.apeshitMode = !model.apeshitMode;
-                }
-            };
-        })(this.model)
+            if (Jasteroids.UserInputController.Keys.S_KEY == event.keyCode) {
+                soundPlayer.toggleSound();
+            } else if (Jasteroids.UserInputController.Keys.N_KEY == event.keyCode) {
+                gameController.newGame();
+            } else if (Jasteroids.UserInputController.Keys.A_KEY == event.keyCode) {
+                model.apeshitMode = !model.apeshitMode;
+            }
+        }
     );
 };
 
@@ -94,7 +66,7 @@ Jasteroids.UserInputController.Keys = {
     SPACE_KEY: 32,
     S_KEY: 83,
     N_KEY: 78,
-    A_KEY:65
+    A_KEY: 65
 };
 
 Object.freeze(Jasteroids.UserInputController.Keys);
