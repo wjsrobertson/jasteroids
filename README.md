@@ -1,4 +1,4 @@
-JAsteroids
+Jasteroids
 ==========
 
 A clone of the old arcade game Asteroids written in JavaScript
