@@ -13,10 +13,11 @@ Jasteroids.Initialiser = {
         var collisionController = new Jasteroids.CollisionController(model, bounds, soundPlayer);
         var positionController = new Jasteroids.PositionController(model, bounds);
         var gameController = new Jasteroids.GameController(model, bounds, soundPlayer);
-        var userInputController = new Jasteroids.UserInputController(window, model, soundPlayer, gameController);
+        var userInputProcessor = Jasteroids.UserInputProcessor(model, soundPlayer, gameController);
+        var userInputKeyHandler = new Jasteroids.UserInputKeyHandler(window, userInputProcessor);
         var saucerController = new Jasteroids.SaucerController(model, bounds, soundPlayer);
 
-        var controllers = [collisionController, positionController, userInputController, gameController, saucerController];
+        var controllers = [collisionController, positionController, userInputKeyHandler, gameController, saucerController];
         var orchestrator = new Jasteroids.GameOrchestrator(controllers, view);
 
         gameController.demo();
