@@ -45,7 +45,7 @@ Jasteroids.UserInputKeyHandler.prototype.tick = function () {
     }
 };
 
-Jasteroids.UserInputKeyHandler.Keys = {
+Jasteroids.UserInputKeyHandler.Keys = Object.freeze({
     LEFT_KEY: 37,
     RIGHT_KEY: 39,
     UP_KEY: 38,
@@ -54,6 +54,4 @@ Jasteroids.UserInputKeyHandler.Keys = {
     S_KEY: 83,
     N_KEY: 78,
     A_KEY: 65
-};
-
-Object.freeze(Jasteroids.UserInputKeyHandler.Keys);
+});
