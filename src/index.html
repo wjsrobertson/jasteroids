@@ -31,6 +31,7 @@
     <script src="js/elements/PositionController.js" type="text/javascript"></script>
     <script src="js/elements/SaucerController.js" type="text/javascript"></script>
     <script src="js/elements/ApeshitColourProvider.js" type="text/javascript"></script>
+    <script src="js/elements/FullscreenHandler.js" type="text/javascript"></script>
     <script src="js/elements/CanvasView.js" type="text/javascript"></script>
     <script src="js/elements/UserInputProcessor.js" type="text/javascript"></script>
     <script src="js/elements/UserInputKeyHandler.js" type="text/javascript"></script>
@@ -48,20 +49,18 @@
 <h1>Jasteroids - Asteroids in JavaScript</h1>
 
 <h2>AKA kiss my asteroid</h2>
-<b>Keys:</b>
+<b>Controls:</b>
 <ul>
-    <li>N: New game</li>
-    <li>S: Toggle sound on / off. No sound in Internet Explorer because fuck Internet Explorer</li>
-    <li>A: Toggle apeshit mode on / off</li>
-    <li>SPACE: shoot</li>
-    <li>ARROW KEYS: move</li>
+    <li>F: toggle fullscreen</li>
+    <li>N / gamepad: new game</li>
+    <li>SPACE / gamepad: shoot</li>
+    <li>ARROW KEYS / gamepad: move</li>
+    <li>S: toggle sound on / off. No sound in Internet Explorer because fuck Internet Explorer</li>
+    <li>A: toggle apeshit mode on / off (warning - flashing lights)</li>
 </ul>
+
 <canvas id="jasteroids" width="900" height="600"></canvas>
-<script>
-    window.addEventListener("load", function () {
-        Jasteroids.Initialiser.bindToCanvasAndStartGame("jasteroids");
-    });
-</script>
+
 <p>
     (c) William Robertson 2016
 </p>
@@ -73,5 +72,12 @@
 <p>
     Source code: <a href="https://github.com/wjsrobertson/jasteroids">github.com/wjsrobertson/jasteroids</a>
 </p>
+
+
+<script>
+    window.addEventListener("load", function () {
+        Jasteroids.Initialiser.bindToCanvasAndStartGame("jasteroids", ["header", "footer"]);
+    });
+</script>
 </body>
 </html>

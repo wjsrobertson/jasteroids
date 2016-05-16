@@ -1,6 +1,6 @@
 var Jasteroids = Jasteroids || {};
 
-Jasteroids.UserInputProcessor = function (model, soundPlayer, gameController) {
+Jasteroids.UserInputProcessor = function (model, soundPlayer, gameController, fullscreenHandler) {
     return {
         left: function () {
             if (model.spaceShip) {
@@ -43,6 +43,9 @@ Jasteroids.UserInputProcessor = function (model, soundPlayer, gameController) {
         },
         toggleApeshit: function() {
             model.apeshitMode = !model.apeshitMode;
+        },
+        toggleFullscreen: function() {
+            fullscreenHandler.toggle();
         }
     }
 

@@ -22,6 +22,8 @@ Jasteroids.UserInputKeyHandler = function (container, userInputProcessor) {
                 userInputProcessor.newGame();
             } else if (Jasteroids.UserInputKeyHandler.Keys.A_KEY == event.keyCode) {
                 userInputProcessor.toggleApeshit();
+            } else if (Jasteroids.UserInputKeyHandler.Keys.F_KEY == event.keyCode) {
+                userInputProcessor.toggleFullscreen();
             }
         }
     );
@@ -53,5 +55,6 @@ Jasteroids.UserInputKeyHandler.Keys = Object.freeze({
     SPACE_KEY: 32,
     S_KEY: 83,
     N_KEY: 78,
-    A_KEY: 65
+    A_KEY: 65,
+    F_KEY: 70
 });

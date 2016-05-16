@@ -1,15 +1,17 @@
 var Jasteroids = Jasteroids || {};
 
-Jasteroids.CanvasView = function (canvas, model, bounds, apeshitColourProvider) {
-    this.graphics = canvas.getContext("2d");
+Jasteroids.CanvasView = function (canvasId, model, bounds, apeshitColourProvider) {
+    this.canvas = document.getElementById(canvasId);
     this.model = model;
     this.bounds = bounds;
     this.apeshitColourProvider = apeshitColourProvider;
     this.spaceShipShape = new Jasteroids.SpaceShip();
     this.spaceShipWidth = this.spaceShipShape.getPolygon().getBoundingRectangle().getWidth();
+    this.scale = new Jasteroids.Vector2D(1, 1);
 };
 
 Jasteroids.CanvasView.prototype.draw = function () {
+    this.graphics = this.canvas.getContext("2d");
     this._clearBackground();
 
     this._drawStars();
@@ -23,11 +25,11 @@ Jasteroids.CanvasView.prototype.draw = function () {
     this._drawMissile(this.model.saucerMissile);
 };
 
-Jasteroids.CanvasView.prototype._getBackgroundColour = function() {
+Jasteroids.CanvasView.prototype._getBackgroundColour = function () {
     return "#000000";
 };
 
-Jasteroids.CanvasView.prototype._getForegroundColour = function() {
+Jasteroids.CanvasView.prototype._getForegroundColour = function () {
     if (this.model.apeshitMode) {
         return this.apeshitColourProvider.nextColour();
     } else {
@@ -40,7 +42,7 @@ Jasteroids.CanvasView.prototype._clearBackground = function clearBackground() {
 
     g.fillStyle = this._getBackgroundColour();
     g.strokeStyle = this._getBackgroundColour();
-    g.fillRect(0, 0, this.bounds.width, this.bounds.height);
+    g.fillRect(0, 0, this._scaleX(this.bounds.width), this._scaleY(this.bounds.height));
 };
 
 Jasteroids.CanvasView.prototype._drawStars = function () {
@@ -50,19 +52,23 @@ Jasteroids.CanvasView.prototype._drawStars = function () {
     g.strokeStyle = this._getForegroundColour();
     this.model.stars.forEach(function (star) {
         g.beginPath();
-        g.arc(star.getPosition().getX(), star.getPosition().getY(), star.getRadius(), 0, 2 * Math.PI);
+        g.arc(
+            this._scaleX(star.getPosition().getX()),
+            this._scaleY(star.getPosition().getY()),
+            this._scaleY(star.getRadius()),
+            0, 2 * Math.PI);
         g.closePath();
         g.fill();
         g.stroke();
-    });
+    }, this);
 };
 
 Jasteroids.CanvasView.prototype._drawLives = function () {
     var g = this.graphics;
 
     var gap = 16;
-    for(var i=0 ; i<this.model.livesRemaining ; i++) {
-        var xPosition = gap + (i * (this.spaceShipWidth + gap/2));
+    for (var i = 0; i < this.model.livesRemaining; i++) {
+        var xPosition = gap + (i * (this.spaceShipWidth + gap / 2));
         var yPosition = 50;
 
         g.strokeStyle = this._getBackgroundColour();
@@ -79,15 +85,15 @@ Jasteroids.CanvasView.prototype._drawScore = function () {
 
     g.font = "30px Monospace";
     this.graphics.fillStyle = this._getForegroundColour();
-    g.fillText(this.model.score,10,30);
+    g.fillText(this.model.score, 10, 30);
     this.graphics.strokeStyle = this._getBackgroundColour();
-    g.strokeText(this.model.score,10,30);
+    g.strokeText(this.model.score, 10, 30);
 };
 
 Jasteroids.CanvasView.prototype._drawAsteroids = function () {
     var g = this.graphics;
 
-    for(i=0 ; i<this.model.asteroids.length ; i++) {
+    for (i = 0; i < this.model.asteroids.length; i++) {
         var asteroid = this.model.asteroids[i];
         g.strokeStyle = this._getForegroundColour();
         g.fillStyle = this._getBackgroundColour();
@@ -134,13 +140,19 @@ Jasteroids.CanvasView.prototype._drawSpaceShip = function () {
 };
 
 Jasteroids.CanvasView.prototype._drawExplosions = function () {
-    this.model.explosions.forEach(function(explosion){
-        explosion.rotatingLines.forEach(function(explosionLine) {
+    this.model.explosions.forEach(function (explosion) {
+        explosion.rotatingLines.forEach(function (explosionLine) {
             this.graphics.strokeStyle = this._getForegroundColour();
             this.graphics.fillStyle = this._getForegroundColour();
             this.graphics.beginPath();
-            this.graphics.moveTo(explosion.getPosition().getX() + explosionLine.getStart().getX(), explosion.getPosition().getY() + explosionLine.getStart().getY());
-            this.graphics.lineTo(explosion.getPosition().getX() + explosionLine.getEnd().getX(), explosion.getPosition().getY() + explosionLine.getEnd().getY());
+            this.graphics.moveTo(
+                this._scaleX(explosion.getPosition().getX() + explosionLine.getStart().getX()),
+                this._scaleY(explosion.getPosition().getY() + explosionLine.getStart().getY())
+            );
+            this.graphics.lineTo(
+                this._scaleX(explosion.getPosition().getX() + explosionLine.getEnd().getX()),
+                this._scaleY(explosion.getPosition().getY() + explosionLine.getEnd().getY())
+            );
             this.graphics.closePath();
             this.graphics.stroke();
             this.graphics.fill();
@@ -155,23 +167,44 @@ Jasteroids.CanvasView.prototype._drawMissile = function (missile) {
         this.graphics.strokeStyle = this._getForegroundColour();
         this.graphics.fillStyle = this._getForegroundColour();
         g.beginPath();
-        g.arc(missile.getPosition().getX(), missile.getPosition().getY(), 1, 0, 2 * Math.PI);
+        g.arc(this._scaleX(missile.getPosition().getX()),
+            this._scaleY(missile.getPosition().getY()),
+            this._scaleY(1),
+            0, 2 * Math.PI);
         g.closePath();
         g.fill();
         g.stroke();
     }
 };
 
-Jasteroids.CanvasView.prototype._drawFloatingObject = function(floatingObject) {
-    if (! floatingObject) {
+Jasteroids.CanvasView.prototype._drawFloatingObject = function (floatingObject) {
+    if (!floatingObject) {
         return;
     }
 
     var vertices = floatingObject.getPolygon().getVertices();
     this.graphics.beginPath();
-    this.graphics.moveTo(floatingObject.getPosition().getX() + vertices[0].getX(), floatingObject.getPosition().getY() + vertices[0].getY());
+    this.graphics.moveTo(
+        this._scaleX(floatingObject.getPosition().getX() + vertices[0].getX()),
+        this._scaleY(floatingObject.getPosition().getY() + vertices[0].getY())
+    );
     vertices.forEach(function (vertex) {
-        this.graphics.lineTo(floatingObject.getPosition().getX() + vertex.getX(), floatingObject.getPosition().getY() + vertex.getY());
+        this.graphics.lineTo(
+            this._scaleX(floatingObject.getPosition().getX() + vertex.getX()),
+            this._scaleY(floatingObject.getPosition().getY() + vertex.getY())
+        );
     }, this);
     this.graphics.closePath();
+};
+
+Jasteroids.CanvasView.prototype.setScale = function (scale) {
+    this.scale = scale;
+};
+
+Jasteroids.CanvasView.prototype._scaleX = function (x) {
+    return x * this.scale.getX();
+};
+
+Jasteroids.CanvasView.prototype._scaleY = function (y) {
+    return y * this.scale.getY();
 };
