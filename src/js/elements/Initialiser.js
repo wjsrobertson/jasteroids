@@ -1,7 +1,7 @@
 var Jasteroids = Jasteroids || {};
 
 Jasteroids.Initialiser = {
-    bindToCanvasAndStartGame: function (canvasId, pageElementIds) {
+    bindToCanvasAndStartGame: function (canvasId) {
         var model = new Jasteroids.GameModel();
         var bounds = new Jasteroids.BoundingRectangle(0, 0, 900, 600);
         var soundPlayer = new Jasteroids.SoundPlayer();
