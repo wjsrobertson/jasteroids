@@ -19,7 +19,7 @@ Jasteroids.UserInputGamepadHandler = function (userInputProcessor) {
     };
 
     function getGamepad() {
-        if (navigator.getGamepads() && navigator.getGamepads().length && navigator.getGamepads()[0]) {
+        if (navigator.getGamepads && navigator.getGamepads().length && navigator.getGamepads()[0]) {
             return navigator.getGamepads()[0];
         } else {
             return null;

@@ -7,10 +7,10 @@ Jasteroids.FullscreenHandler = function (canvasElementId, bounds, view) {
     initEventListeners();
 
     function onScreenChange() {
-        var isFullscreen = document.fullScreen ||
-            document.mozFullScreen ||
-            document.webkitIsFullScreen ||
-            document.fullscreenEnabled;
+        var isFullscreen = document.fullScreenEnabled ||
+            document.mozFullScreenEnabled ||
+            document.webkitIsFullScreenEnabled ||
+            document.msFullscreenEnabled;
 
         if (isFullscreen) {
             resizeCanvasToFullScreen();
@@ -52,8 +52,7 @@ Jasteroids.FullscreenHandler = function (canvasElementId, bounds, view) {
 
     // As per https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
     function toggleFullScreen() {
-        if (!canvas.fullscreenElement &&
-            !canvas.mozFullScreenElement && !canvas.webkitFullscreenElement && !canvas.msFullscreenElement) {  // current working methods
+        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {  // current working methods
             if (canvas.requestFullscreen) {
                 canvas.requestFullscreen();
             } else if (canvas.msRequestFullscreen) {
