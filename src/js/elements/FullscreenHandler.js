@@ -7,9 +7,9 @@ Jasteroids.FullscreenHandler = function (canvasElementId, bounds, view) {
     initEventListeners();
 
     function onScreenChange() {
-        var isFullscreen = document.fullScreenEnabled ||
-            document.mozFullScreenEnabled ||
-            document.webkitIsFullScreenEnabled ||
+        var isFullscreen = document.fullScreen ||
+            document.mozFullScreen ||
+            document.webkitIsFullScreen ||
             document.msFullscreenEnabled;
 
         if (isFullscreen) {
