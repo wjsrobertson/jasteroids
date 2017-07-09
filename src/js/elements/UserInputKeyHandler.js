@@ -9,6 +9,7 @@ Jasteroids.UserInputKeyHandler = function (container, userInputProcessor) {
     container.addEventListener('keydown',
         function (event) {
             pressedKeys[event.keyCode] = true;
+            event.preventDefault();
         }
     );
 
@@ -25,6 +26,8 @@ Jasteroids.UserInputKeyHandler = function (container, userInputProcessor) {
             } else if (Jasteroids.UserInputKeyHandler.Keys.F_KEY == event.keyCode) {
                 userInputProcessor.toggleFullscreen();
             }
+
+            event.preventDefault();
         }
     );
 };
